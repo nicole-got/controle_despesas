@@ -4,8 +4,6 @@ Controle Despesas
 
 ## Instale as dependencias
 ```bash
-yarn
-# or
 npm install
 ```
 ### Atualize a rota da api
