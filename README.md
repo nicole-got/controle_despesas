@@ -2,23 +2,18 @@
 
 Controle Despesas
 
-## Install the dependencies
+## Instale as dependencias
 ```bash
 yarn
 # or
 npm install
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+### Inicie o projeto em desenvolvimento
 ```bash
 quasar dev
 ```
 
 
-### Build the app for production
-```bash
-quasar build
-```
-
-### Customize the configuration
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+### Atualize a rota da api
+No arquivo quasar.config.js altere o valor da variável API_URL
