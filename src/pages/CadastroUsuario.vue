@@ -72,10 +72,12 @@
   import { defineComponent, ref } from 'vue'
   import { api } from 'boot/axios'
   import { useRouter } from 'vue-router'
+  import { useQuasar } from 'quasar'
   
   export default defineComponent({
     name: 'Login',
     setup(){
+      const $q = useQuasar()
       const router = useRouter()
       const form = ref({
         email: '',
@@ -86,8 +88,20 @@
       const onSubmit = async () => {
         try{
           const response =  await api.post('cadastrar/usuario', form.value)
+          $q.notify({ 
+            message: 'Usuário cadastrado com sucesso!.', 
+            color: 'positive', 
+            position: 'top-right',
+            actions: [ { icon: 'close', color: 'white', round: true } ] 
+          })
           router.push({name: 'Login'})
         }catch(e){
+          $q.notify({ 
+            message: 'Erro ao cadastrar usuário, tente novamente mais tarde.', 
+            color: 'negative', 
+            position: 'top-right',
+            actions: [ { icon: 'close', color: 'white', round: true } ] 
+          })
           console.log('ERROR: ', e.error)
         }
       }

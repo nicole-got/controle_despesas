@@ -76,10 +76,12 @@
 import { defineComponent, ref, onMounted } from 'vue'
 import { api } from 'boot/axios'
 import { useRouter, useRoute } from 'vue-router'
+import { useQuasar } from 'quasar'
 
 export default defineComponent({
   name:'FormDespesa',
   setup(){
+    const $q = useQuasar()
     const router = useRouter()
     const route = useRoute()
     const config = {
@@ -105,7 +107,12 @@ export default defineComponent({
           if(e.response.status == 401){
             router.push({name: 'Login'})
           }else if(e.response.data.message){
-            alert(e.response.data.message)
+            $q.notify({ 
+              message: e.response.data.message, 
+              color: 'negative', 
+              position: 'top-right',
+              actions: [ { icon: 'close', color: 'white', round: true } ] 
+            })
           }
           console.log('ERROR: ', e.response)
         }
@@ -132,6 +139,12 @@ export default defineComponent({
         }else{
           await api.post('despesa', form.value, config)
         }
+        $q.notify({ 
+          message: 'Despesa salva com sucesso!', 
+          color: 'positive', 
+          position: 'top-right',
+          actions: [ { icon: 'close', color: 'white', round: true } ] 
+        })
         router.push({name: 'home'})
       }catch(e){
           if(e.response.status == 401){

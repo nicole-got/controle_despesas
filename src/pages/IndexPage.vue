@@ -37,10 +37,12 @@
 import { defineComponent, ref, onMounted } from 'vue'
 import { api } from 'boot/axios'
 import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
 
 export default defineComponent({
   name: 'IndexPage',
   setup() {
+    const $q = useQuasar()
     const router = useRouter()
     const posts = ref([])
     const config = {
@@ -76,13 +78,23 @@ export default defineComponent({
     const deleteDespesa = async (id)=>{
       try{
         await api.delete('despesa/'+id,config)
-        alert('Despesa apagada com sucesso')
+        $q.notify({ 
+          message: 'Despesa apagada com sucesso!', 
+          color: 'positive', 
+          position: 'top-right',
+          actions: [ { icon: 'close', color: 'white', round: true } ] 
+        })
         await getPosts()
       } catch(e){
           if(e.response.status == 401){
             router.push({name: 'Login'})
           }else if(e.response.data.message){
-            alert(e.response.data.message)
+            $q.notify({ 
+              message: e.response.data.message, 
+              color: 'negative', 
+              position: 'top-right',
+              actions: [ { icon: 'close', color: 'white', round: true } ] 
+            })
           }
           console.log('ERROR: ', e.response)
       }

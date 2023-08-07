@@ -33,10 +33,12 @@
 import { defineComponent, ref } from 'vue'
 import { api } from 'boot/axios'
 import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
 
 export default defineComponent({
   name: 'Login',
   setup(){
+    const $q = useQuasar()
     const router = useRouter()
     const form = ref({
       email: '',
@@ -45,11 +47,16 @@ export default defineComponent({
 
     const onSubmit = async () => {
       try{
-        console.log('passou')
         const response =  await api.post('login', form.value)
         localStorage.token = response.data.access_token
         router.push({name: 'home'})
       }catch(e){
+        $q.notify({ 
+          message: 'Login ou senha incorretos.', 
+          color: 'negative', 
+          position: 'top-right',
+          actions: [ { icon: 'close', color: 'white', round: true } ] 
+        })
         console.log('ERROR: ', e.response.status)
       }
     }
